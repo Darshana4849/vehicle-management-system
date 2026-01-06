@@ -27,7 +27,6 @@ public class BrandController {
 
         BrandResponse brandResponse = new BrandResponse();
 
-        brandResponse.setBrandId(brand.getBrandId());
         brandResponse.setName(brand.getName());
         return brandResponse;
 

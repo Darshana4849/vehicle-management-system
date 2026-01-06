@@ -14,8 +14,6 @@ public class Model {
     private Long id;
 
     private String modelName;
-    private String modelId;
-
 //    @ManyToOne
 //    private Type type;
 

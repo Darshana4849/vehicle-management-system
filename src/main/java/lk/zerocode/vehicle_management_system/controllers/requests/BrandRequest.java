@@ -4,16 +4,8 @@ import lombok.Data;
 
 @Data
 public class BrandRequest {
-    private String brandId;
+
     private String name;
-
-    public String getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(String brandId) {
-        this.brandId = brandId;
-    }
 
     public String getName() {
         return name;

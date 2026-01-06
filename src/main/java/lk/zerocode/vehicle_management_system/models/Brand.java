@@ -13,7 +13,6 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String brandId;
     private String name;
 
     @OneToMany(mappedBy = "brand")
@@ -25,14 +24,6 @@ public class Brand {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(String brandId) {
-        this.brandId = brandId;
     }
 
     public String getName() {
