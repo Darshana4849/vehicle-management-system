@@ -4,7 +4,6 @@ public class BrandResponse {
 
     private String name;
 
-
     public String getName() {
         return name;
     }

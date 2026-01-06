@@ -12,20 +12,19 @@ import java.util.List;
 @RestController
 public class ModelController {
 
-    @Autowired
     private ModelService modelService;
 
-    @PostMapping("/models/{brand-id}")
-    public void create(
-            @PathVariable("brand-id") Long brandId, @RequestBody ModelRequest modelRequest
-    ) {
-        modelService.create(brandId, modelRequest);
+    public ModelController(ModelService modelService) {
+        this.modelService = modelService;
     }
 
-    @GetMapping("/brands/{brand-id}/models")
-    public List<ModelResponse> getModelsByBrand (@PathVariable("brand-id") Long brandId
-    ) {
-        return modelService.getModelsByBrandId(brandId);
+    @PostMapping("brands/{brand-id}/models")
+    public void create(@PathVariable("brand-id") Long brandId,
+                       @RequestBody ModelRequest modelRequest) {
+
+        modelService.create(brandId, modelRequest);
+
     }
+
 }
 
