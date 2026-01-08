@@ -2,75 +2,72 @@ package lk.zerocode.vehicle_management_system.controllers;
 
 import lk.zerocode.vehicle_management_system.controllers.requests.BrandRequest;
 import lk.zerocode.vehicle_management_system.controllers.response.BrandResponse;
-import lk.zerocode.vehicle_management_system.exception.BrandNotFoundException;
 import lk.zerocode.vehicle_management_system.models.Brand;
+import lk.zerocode.vehicle_management_system.models.Model;
 import lk.zerocode.vehicle_management_system.services.BrandService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lk.zerocode.vehicle_management_system.services.ModelService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/brands")
 public class BrandController {
 
-    private BrandService brandService;
+    private final BrandService brandService;
+    private final ModelService modelService;
 
-    public BrandController(BrandService brandService){
+    public BrandController(BrandService brandService,
+                           ModelService modelService) {
         this.brandService = brandService;
+        this.modelService = modelService;
     }
-    @PostMapping("/brands")
+
+    @PostMapping
     public void create(@RequestBody BrandRequest brandRequest) {
-
         brandService.create(brandRequest);
-
     }
-    @GetMapping("/brands/{brand-id}")
-    public BrandResponse getById(@PathVariable("brand-id") Long brandId) {
+
+    @GetMapping("/{brandId}")
+    public BrandResponse getById(@PathVariable Long brandId) {
 
         Brand brand = brandService.findById(brandId);
-        BrandResponse brandResponse = new BrandResponse();
 
-        brandResponse.setName(brand.getName());
-
-        return brandResponse;
-
-    }
-    @GetMapping("/brands")
-    public List<BrandResponse> getAllBrands(){
-
-        List<Brand> brandList = brandService.findAll();
-        List<BrandResponse> response = new ArrayList<>();
-
-        for(Brand modelObject :  brandList) {
-            BrandResponse brandResponse = new BrandResponse();
-
-            brandResponse.setName(modelObject.getName());
-            response.add(brandResponse);
-
-        }
+        BrandResponse response = new BrandResponse();
+        response.setName(brand.getName());
 
         return response;
-
     }
 
-    @PutMapping("brands/{brand-id}")
-    public void updateBrandById(@PathVariable("brand-id") Long brandId,
-                                @RequestBody BrandRequest brandRequest){
+    @GetMapping
+    public List<BrandResponse> getAllBrands() {
 
+        List<Brand> brands = brandService.findAll();
+        List<BrandResponse> responses = new ArrayList<>();
+
+        for (Brand brand : brands) {
+            BrandResponse res = new BrandResponse();
+            res.setName(brand.getName());
+            responses.add(res);
+        }
+        return responses;
+    }
+
+    //add new
+    @GetMapping("/{brandId}/models")
+    public List<Model> getModelsByBrand(@PathVariable Long brandId) {
+        return modelService.getModelsByBrand(brandId);
+    }
+
+    @PutMapping("/{brandId}")
+    public void update(@PathVariable Long brandId,
+                       @RequestBody BrandRequest brandRequest) {
         brandService.updateById(brandId, brandRequest);
-
     }
 
-    @DeleteMapping("brands/{brand-id}")
-    public void deleteBrandById(@PathVariable("brand-id") Long brandId){
-
+    @DeleteMapping("/{brandId}")
+    public void delete(@PathVariable Long brandId) {
         brandService.deleteById(brandId);
-
     }
 }
-
-
-
-
-

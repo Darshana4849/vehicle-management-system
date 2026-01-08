@@ -5,20 +5,16 @@ import lk.zerocode.vehicle_management_system.exception.BrandNotFoundException;
 import lk.zerocode.vehicle_management_system.models.Brand;
 import lk.zerocode.vehicle_management_system.repository.BrandRepository;
 import lk.zerocode.vehicle_management_system.services.BrandService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
-@Primary
 public class BrandServiceImpl implements BrandService {
 
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
 
-    public BrandServiceImpl(BrandRepository brandRepository){
+    public BrandServiceImpl(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }
 
@@ -26,62 +22,34 @@ public class BrandServiceImpl implements BrandService {
     public void create(BrandRequest brandRequest) {
 
         Brand brand = new Brand();
-
         brand.setName(brandRequest.getName());
 
-        try {
-            brandRepository.save(brand);
-        } catch (RuntimeException exception) {
-            throw new BrandNotFoundException(exception.getMessage());
-        }
-
+        brandRepository.save(brand);
     }
 
     @Override
-    public Brand findById(Long brandId) {
-
-        return brandRepository.findById(brandId).orElseThrow(
-                () -> new BrandNotFoundException("brand is unavailable")
-        );
-
+    public Brand findById(Long id) {
+        return brandRepository.findById(id)
+                .orElseThrow(() ->
+                        new BrandNotFoundException("Brand not found"));
     }
 
     @Override
     public List<Brand> findAll() {
-
-        List<Brand> brandList = brandRepository.findAll();
-
-        if(brandList.isEmpty()) {
-            throw new BrandNotFoundException("no vehicle brands in database");
-        }
-
-        return brandList;
+        return brandRepository.findAll();
     }
 
     @Override
-    public void updateById(Long brandId, BrandRequest brandRequest) {
+    public void updateById(Long id, BrandRequest brandRequest) {
 
-        Brand brand = findById(brandId);
-
-        if(brand.getName().equals(brandRequest.getName())){
-            throw new BrandNotFoundException("this brand name already exist");
-        }
-
+        Brand brand = findById(id);
         brand.setName(brandRequest.getName());
 
         brandRepository.save(brand);
-
     }
 
     @Override
-    public void deleteById(Long brandId) {
-
-        brandRepository.deleteById(brandId);
-
+    public void deleteById(Long id) {
+        brandRepository.deleteById(id);
     }
-
-
 }
-
-
-

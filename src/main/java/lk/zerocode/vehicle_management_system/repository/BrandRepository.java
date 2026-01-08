@@ -4,5 +4,4 @@ import lk.zerocode.vehicle_management_system.models.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BrandRepository extends JpaRepository<Brand, Long> {
-    
 }

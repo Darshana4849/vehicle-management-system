@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BrandService {
 
-    void create (BrandRequest brandRequest);
+    void create(BrandRequest brandRequest);
 
     Brand findById(Long id);
 
@@ -16,5 +16,4 @@ public interface BrandService {
     void updateById(Long id, BrandRequest brandRequest);
 
     void deleteById(Long id);
-
 }

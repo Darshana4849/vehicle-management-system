@@ -3,7 +3,6 @@ package lk.zerocode.vehicle_management_system.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import java.util.List;
 
 @Entity
 @Data
@@ -15,14 +14,9 @@ public class Model {
     private Long id;
 
     private String modelName;
-//    @ManyToOne
-//    private Type type;
-
-    @OneToMany(mappedBy = "model")
-    private List<Vehicle> vehicleList;
 
     @ManyToOne
+    @JoinColumn(name = "brand_id")
+    @JsonIgnore   // ⭐ FIX HERE
     private Brand brand;
-
-
 }
